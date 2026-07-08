@@ -6,7 +6,7 @@ import type { Priority } from "@/lib/types";
 
 const styles: Record<Priority, string> = {
   critical: "bg-red-50 text-red-600 border border-red-200",
-  high: "bg-amber-50 text-amber-600 border border-amber-200",
+  high: "bg-amber-50 text-amber-700 border border-amber-200",
   medium: "bg-slate-100 text-slate-600 border border-slate-200",
 };
 
