@@ -18,16 +18,26 @@ export function DispatcherWorkbench() {
     .filter((e) => e.status !== "resolved")
     .sort((a, b) => a.slaMinutesRemaining - b.slaMinutesRemaining);
   const resolved = exceptions.filter((e) => e.status === "resolved");
+  const waitingOnManager = exceptions.filter(
+    (e) => e.status === "awaiting-decision",
+  ).length;
   const selected = exceptions.find((e) => e.id === openId) ?? null;
 
   return (
-    <main className="mx-auto w-full max-w-3xl p-6">
-      <div className="flex items-baseline justify-between">
-        <h1 className="text-lg font-semibold text-slate-900">
+    <main className="mx-auto w-full max-w-5xl p-6">
+      <div>
+        <h1 className="text-lg font-semibold tracking-tight text-slate-900">
           Today&apos;s exceptions
         </h1>
-        <p className="text-xs text-slate-500">
-          Sorted by SLA urgency — most at-risk first.
+        <p className="mt-1 text-sm text-slate-500">
+          <span className="font-medium tabular-nums text-slate-900">
+            {active.length}
+          </span>{" "}
+          open ·{" "}
+          <span className="font-medium tabular-nums text-slate-900">
+            {waitingOnManager}
+          </span>{" "}
+          waiting on manager · sorted by SLA urgency
         </p>
       </div>
 
@@ -67,7 +77,7 @@ export function DispatcherWorkbench() {
           )}
         </div>
       ) : (
-        <ul className="mt-4 space-y-3">
+        <ul className="mt-4 space-y-2.5">
           {active.map((e) => (
             <li key={e.id}>
               <ExceptionCard exception={e} onOpen={setOpenId} />
@@ -84,7 +94,7 @@ export function DispatcherWorkbench() {
           >
             Resolved today
           </h2>
-          <ul className="mt-3 space-y-3">
+          <ul className="mt-3 space-y-2.5">
             {resolved.map((e) => (
               <li key={e.id} className="opacity-70">
                 <ExceptionCard exception={e} onOpen={setOpenId} />

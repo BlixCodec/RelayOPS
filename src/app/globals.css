@@ -42,7 +42,7 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
+  --background: oklch(0.984 0.003 247.858); /* slate-50 — page layer; surfaces stay white */
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -119,5 +119,11 @@
   }
   html {
     @apply font-sans;
+  }
+  /* html reserves the scrollbar gutter, so the scroll-lock compensation
+     Radix applies when a drawer/dialog opens would double-shift the page. */
+  body[data-scroll-locked] {
+    padding-right: 0 !important;
+    margin-right: 0 !important;
   }
 }

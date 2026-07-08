@@ -65,10 +65,15 @@ export function DecisionQueue() {
   }
 
   return (
-    <main className="mx-auto w-full max-w-3xl p-6">
-      <h1 className="text-lg font-semibold text-slate-900">Decision queue</h1>
-      <p className="mt-1 text-xs text-slate-500">
-        Escalations from the branches that need your sign-off.
+    <main className="mx-auto w-full max-w-5xl p-6">
+      <h1 className="text-lg font-semibold tracking-tight text-slate-900">
+        Decision queue
+      </h1>
+      <p className="mt-1 text-sm text-slate-500">
+        <span className="font-medium tabular-nums text-slate-900">
+          {waiting.length}
+        </span>{" "}
+        escalation{waiting.length === 1 ? "" : "s"} awaiting your sign-off
       </p>
 
       {waiting.length === 0 ? (
@@ -95,7 +100,7 @@ export function DecisionQueue() {
           </Button>
         </div>
       ) : (
-        <ul className="mt-4 space-y-3">
+        <ul className="mt-4 space-y-2.5">
           {waiting.map((e) => (
             <DecisionRow
               key={e.id}
@@ -208,7 +213,7 @@ function DecisionRow({
   if (!escalation) return null;
 
   return (
-    <li className="rounded-xl border border-slate-200 bg-white p-4">
+    <li className="rounded-xl border border-slate-200 bg-white px-4 py-3">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
         <div
           role="button"
@@ -224,16 +229,18 @@ function DecisionRow({
         >
           <div className="flex flex-wrap items-center gap-2">
             <PriorityBadge priority={exception.priority} />
-            <span className="text-sm font-semibold text-slate-900">
+            <span className="text-sm leading-tight font-semibold tracking-tight text-slate-900">
               {exception.customer}
             </span>
             <span className="text-xs tabular-nums text-slate-500">
               {exception.id}
             </span>
           </div>
-          <p className="mt-1 text-sm text-slate-500">{exception.issue}</p>
+          <p className="mt-1 text-sm leading-snug text-slate-500">
+            {exception.issue}
+          </p>
 
-          <blockquote className="mt-3 border-l-2 border-slate-200 pl-3 text-sm text-slate-900">
+          <blockquote className="mt-2 border-l-2 border-slate-200 pl-3 text-sm text-slate-900">
             &ldquo;{escalation.reason}&rdquo;
             <footer className="mt-1 text-xs text-slate-500">
               {escalation.escalatedBy} · {escalation.escalatedAt} ·{" "}
@@ -241,7 +248,7 @@ function DecisionRow({
             </footer>
           </blockquote>
 
-          <p className="mt-3 flex items-center gap-3 text-xs text-slate-500">
+          <p className="mt-2 flex items-center gap-3 text-xs text-slate-500">
             <span
               className={cn(
                 "font-medium tabular-nums",

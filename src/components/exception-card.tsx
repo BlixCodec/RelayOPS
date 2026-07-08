@@ -25,11 +25,11 @@ export function ExceptionCard({
     <button
       type="button"
       onClick={() => onOpen(exception.id)}
-      className="w-full cursor-pointer rounded-xl border border-slate-200 bg-white p-4 text-left transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-indigo-600"
+      className="w-full cursor-pointer rounded-xl border border-slate-200 bg-white px-4 py-3 text-left transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-indigo-600"
     >
       <div className="flex items-center gap-2">
         <PriorityBadge priority={exception.priority} />
-        <span className="text-sm font-semibold text-slate-900">
+        <span className="text-sm leading-tight font-semibold tracking-tight text-slate-900">
           {exception.customer}
         </span>
         {exception.status === "awaiting-decision" && (
@@ -50,8 +50,10 @@ export function ExceptionCard({
           </span>
         )}
       </div>
-      <p className="mt-1.5 text-sm text-slate-500">{exception.issue}</p>
-      <div className="mt-3 flex items-center gap-3 text-xs text-slate-500">
+      <p className="mt-1 text-sm leading-snug text-slate-500">
+        {exception.issue}
+      </p>
+      <div className="mt-2 flex items-center gap-3 text-xs text-slate-500">
         <span
           className={cn(
             "font-medium tabular-nums",

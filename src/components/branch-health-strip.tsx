@@ -40,7 +40,7 @@ export function BranchHealthStrip() {
         return (
           <div
             key={branch.id}
-            className="rounded-xl border border-slate-200 bg-white p-4"
+            className="rounded-xl border border-slate-200 bg-white px-4 py-3"
           >
             <div className="flex items-center justify-between gap-2">
               <span className="text-sm font-semibold text-slate-900">

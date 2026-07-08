@@ -35,7 +35,7 @@ export function RoleSelect() {
 
   return (
     <main className="flex flex-1 flex-col items-center justify-center p-6">
-      <h1 className="text-lg font-semibold text-slate-900">
+      <h1 className="text-lg font-semibold tracking-tight text-slate-900">
         Who&apos;s working right now?
       </h1>
       <p className="mt-1 text-sm text-slate-500">
@@ -60,7 +60,9 @@ export function RoleSelect() {
           >
             <Icon className="size-5 text-indigo-600" aria-hidden />
             <div>
-              <h2 className="text-sm font-semibold text-slate-900">{title}</h2>
+              <h2 className="text-sm font-semibold tracking-tight text-slate-900">
+                {title}
+              </h2>
               <p className="mt-1 text-sm text-slate-500">{decides}</p>
             </div>
           </Card>

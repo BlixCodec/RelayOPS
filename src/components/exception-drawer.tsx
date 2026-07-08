@@ -104,7 +104,7 @@ export function ExceptionDrawer({
                 {exception.id}
               </span>
             </div>
-            <SheetTitle className="text-base font-semibold text-slate-900">
+            <SheetTitle className="text-base font-semibold tracking-tight text-slate-900">
               {exception.customer}
             </SheetTitle>
             <SheetDescription className="text-sm text-slate-500">
@@ -112,8 +112,8 @@ export function ExceptionDrawer({
             </SheetDescription>
           </SheetHeader>
 
-          <div className="space-y-6 p-4">
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+          <div className="space-y-4 p-4">
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-2.5 text-sm">
               <div>
                 <dt className="text-xs text-slate-500">SLA remaining</dt>
                 <dd
