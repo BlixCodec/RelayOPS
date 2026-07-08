@@ -11,12 +11,12 @@ import type { BranchHealth } from "@/lib/types";
 
 const healthStyles: Record<BranchHealth, { pill: string; dot: string; label: string }> = {
   stable: {
-    pill: "bg-emerald-50 text-emerald-600",
+    pill: "bg-emerald-50 text-emerald-700",
     dot: "bg-emerald-600",
     label: "Stable",
   },
   "high-load": {
-    pill: "bg-amber-50 text-amber-600",
+    pill: "bg-amber-50 text-amber-700",
     dot: "bg-amber-600",
     label: "High load",
   },
@@ -40,7 +40,7 @@ export function BranchHealthStrip() {
         return (
           <div
             key={branch.id}
-            className="rounded-lg border border-slate-200 bg-white p-4"
+            className="rounded-xl border border-slate-200 bg-white p-4"
           >
             <div className="flex items-center justify-between gap-2">
               <span className="text-sm font-semibold text-slate-900">

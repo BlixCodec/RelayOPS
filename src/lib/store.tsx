@@ -233,11 +233,14 @@ export function useRelay() {
 
     decide(exceptionId: string, outcome: "approved" | "denied", note: string) {
       dispatch({ type: "decide", exceptionId, outcome, note, time: nowHHMM() });
-      toast.success(
-        outcome === "approved"
-          ? "Approved — the branch will see your note on the exception."
-          : "Denied with instructions — the branch will see your note.",
-      );
+      if (outcome === "approved") {
+        toast.success(
+          "Approved — the branch will see your note on the exception.",
+        );
+      } else {
+        // Neutral icon: a denial isn't a success moment (#16).
+        toast.info("Denied with instructions — the branch will see your note.");
+      }
     },
 
     resolve(exceptionId: string) {

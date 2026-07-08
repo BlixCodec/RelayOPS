@@ -4,9 +4,12 @@
 // at the top — Approve (indigo) / Deny (ghost, note required) — with the
 // compact branch-health strip below for context (docs/decision-doc.md §4).
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Inbox } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import CheckedIcon from "@/components/ui/checked-icon";
+import DenyIcon from "@/components/ui/x-icon";
+import type { AnimatedIconHandle } from "@/components/ui/types";
 import {
   Dialog,
   DialogContent,
@@ -70,11 +73,26 @@ export function DecisionQueue() {
 
       {waiting.length === 0 ? (
         <div className="mt-10 flex flex-col items-center text-center">
-          <Inbox className="size-5 text-emerald-600" aria-hidden />
-          <p className="mt-2 text-sm text-slate-900">No escalations waiting.</p>
-          <p className="mt-1 text-sm text-slate-500">
-            Nice — check branch health below.
+          <Inbox
+            className="size-5 text-slate-400"
+            strokeWidth={1.5}
+            aria-hidden
+          />
+          <p className="mt-2 text-sm text-slate-900">
+            No escalations waiting — nice.
           </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              document
+                .getElementById("branch-health")
+                ?.scrollIntoView({ block: "start" })
+            }
+            className="mt-3 border-slate-200 text-slate-900 hover:bg-slate-50"
+          >
+            Check branch health
+          </Button>
         </div>
       ) : (
         <ul className="mt-4 space-y-3">
@@ -92,7 +110,10 @@ export function DecisionQueue() {
         </ul>
       )}
 
-      <h2 className="mt-8 text-xs font-medium uppercase tracking-wide text-slate-500">
+      <h2
+        id="branch-health"
+        className="mt-8 text-xs font-medium uppercase tracking-wide text-slate-500"
+      >
         Branch health
       </h2>
       <div className="mt-3">
@@ -152,10 +173,11 @@ export function DecisionQueue() {
             <Button
               onClick={submitDecision}
               disabled={!canSubmit}
+              variant={pending?.mode === "approved" ? "default" : "ghost"}
               className={cn(
                 pending?.mode === "approved"
-                  ? "bg-indigo-600 text-white hover:bg-indigo-700"
-                  : "bg-slate-900 text-white hover:bg-slate-800",
+                  ? "bg-slate-900 text-white hover:bg-slate-800"
+                  : "text-slate-900 hover:bg-slate-50",
               )}
             >
               {pending?.mode === "approved"
@@ -180,13 +202,26 @@ function DecisionRow({
 }) {
   const branch = getBranchById(exception.branch);
   const sla = slaInfo(exception, useSecondsElapsed());
+  const approveIconRef = useRef<AnimatedIconHandle>(null);
+  const denyIconRef = useRef<AnimatedIconHandle>(null);
   const escalation = exception.escalation;
   if (!escalation) return null;
 
   return (
-    <li className="rounded-lg border border-slate-200 bg-white p-4">
+    <li className="rounded-xl border border-slate-200 bg-white p-4">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-        <div className="min-w-0 flex-1">
+        <div
+          role="button"
+          tabIndex={0}
+          onClick={onDetails}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              onDetails();
+            }
+          }}
+          className="-m-2 min-w-0 flex-1 cursor-pointer rounded-lg p-2 transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-indigo-600"
+        >
           <div className="flex flex-wrap items-center gap-2">
             <PriorityBadge priority={exception.priority} />
             <span className="text-sm font-semibold text-slate-900">
@@ -230,16 +265,24 @@ function DecisionRow({
           <Button
             size="sm"
             onClick={() => onDecide("approved")}
-            className="bg-indigo-600 text-white hover:bg-indigo-700"
+            onMouseEnter={() => approveIconRef.current?.startAnimation()}
+            onMouseLeave={() => approveIconRef.current?.stopAnimation()}
+            onPointerDown={() => approveIconRef.current?.startAnimation()}
+            className="bg-slate-900 text-white hover:bg-slate-800"
           >
+            <CheckedIcon ref={approveIconRef} size={16} strokeWidth={2} />
             Approve
           </Button>
           <Button
             size="sm"
             variant="ghost"
             onClick={() => onDecide("denied")}
+            onMouseEnter={() => denyIconRef.current?.startAnimation()}
+            onMouseLeave={() => denyIconRef.current?.stopAnimation()}
+            onPointerDown={() => denyIconRef.current?.startAnimation()}
             className="text-slate-900 hover:bg-slate-50"
           >
+            <DenyIcon ref={denyIconRef} size={16} strokeWidth={2} />
             Deny
           </Button>
           <Button
