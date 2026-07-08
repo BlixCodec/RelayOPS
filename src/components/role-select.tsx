@@ -51,7 +51,10 @@ export function RoleSelect() {
             tabIndex={0}
             onClick={() => selectRole(role)}
             onKeyDown={(e) => {
-              if (e.key === "Enter" || e.key === " ") selectRole(role);
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                selectRole(role);
+              }
             }}
             className="cursor-pointer gap-3 rounded-lg border-slate-200 p-4 shadow-none transition-colors hover:bg-slate-50 focus-visible:outline-2 focus-visible:outline-indigo-600"
           >
