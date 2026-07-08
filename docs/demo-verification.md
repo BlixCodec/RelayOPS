@@ -65,11 +65,14 @@ shows East at 2 open (live count) rather than the stale seeded 5.
 
 ## Observations & polish notes (not blockers)
 
-1. **Audit timestamps can read out of order.** Seed entries carry fictional
+1. **Audit timestamps can read out of order.** ~~Seed entries carry fictional
    morning times (08:47…09:25) while live actions stamp the real local clock —
-   this run produced "08:49 → 04:35". For the recorded demo, either run it
-   when the clock is past ~09:30 or re-seed the JSON times closer to "now".
-   Worth deciding before Friday polish.
+   this run produced "08:49 → 04:35".~~ **Fixed** in `src/lib/time.ts`: seeded
+   clock times are normalized at store init (latest seeded event anchors to
+   ~10 minutes ago; "yesterday …" entries pass through). Re-verified at 04:42
+   local: seed entries rendered 03:54/03:56 and a live escalation stamped
+   04:43 — chronological at any hour. Remaining edge: within ~2h after
+   midnight the earliest seed times can wrap and read as late evening.
 2. **Actions reappear after approval (by design).** An approved exception
    returns to `assigned`, so Assign/Escalate/Resolve come back — that's the
    dispatcher acting on the instruction and eventually resolving. Noting it

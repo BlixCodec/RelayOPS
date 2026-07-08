@@ -8,6 +8,7 @@ import { createContext, useContext, useMemo, useReducer } from "react";
 import { toast } from "sonner";
 import { exceptions as seedExceptions } from "@/lib/data";
 import { getTechnicianById } from "@/lib/data";
+import { computeSeedShift, nowHHMM, shiftSeedTime } from "@/lib/time";
 import type {
   ApprovalType,
   Exception,
@@ -156,21 +157,34 @@ const RelayContext = createContext<{
   dispatch: React.Dispatch<RelayAction>;
 } | null>(null);
 
-export function RelayProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(relayReducer, {
+// Normalize the seeded morning times to the real clock once, at store init,
+// so seeded and live audit entries always read in chronological order.
+function createInitialState(): RelayState {
+  const shift = computeSeedShift();
+  return {
     role: null,
-    exceptions: seedExceptions,
-  });
-  const value = useMemo(() => ({ state, dispatch }), [state]);
-  return <RelayContext.Provider value={value}>{children}</RelayContext.Provider>;
+    exceptions: seedExceptions.map((e) => ({
+      ...e,
+      escalation: e.escalation && {
+        ...e.escalation,
+        escalatedAt: shiftSeedTime(e.escalation.escalatedAt, shift),
+        decision: e.escalation.decision && {
+          ...e.escalation.decision,
+          at: shiftSeedTime(e.escalation.decision.at, shift),
+        },
+      },
+      auditTrail: e.auditTrail.map((entry) => ({
+        ...entry,
+        time: shiftSeedTime(entry.time, shift),
+      })),
+    })),
+  };
 }
 
-function nowHHMM(): string {
-  return new Date().toLocaleTimeString("en-US", {
-    hour12: false,
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+export function RelayProvider({ children }: { children: React.ReactNode }) {
+  const [state, dispatch] = useReducer(relayReducer, null, createInitialState);
+  const value = useMemo(() => ({ state, dispatch }), [state]);
+  return <RelayContext.Provider value={value}>{children}</RelayContext.Provider>;
 }
 
 export function useRelay() {
