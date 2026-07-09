@@ -18,25 +18,16 @@ function DispatcherWorkbench() {
   const filteredBranch = branchById(favoriteFilter ?? "");
 
   const scoped = useMemo(
-    () =>
-      favoriteFilter
-        ? exceptions.filter((e) => e.branchId === favoriteFilter)
-        : exceptions,
+    () => (favoriteFilter ? exceptions.filter((e) => e.branchId === favoriteFilter) : exceptions),
     [exceptions, favoriteFilter],
   );
 
-  const active = useMemo(
-    () => scoped.filter((e) => e.status !== "resolved"),
-    [scoped],
-  );
+  const active = useMemo(() => scoped.filter((e) => e.status !== "resolved"), [scoped]);
 
   const criticalOpen = useMemo(
     () =>
       active.filter(
-        (e) =>
-          e.priority === "critical" &&
-          e.status !== "approved" &&
-          e.status !== "denied",
+        (e) => e.priority === "critical" && e.status !== "approved" && e.status !== "denied",
       ).length,
     [active],
   );
@@ -90,10 +81,7 @@ function DispatcherWorkbench() {
 
       <div className="space-y-5 p-4 sm:p-6">
         {groups.every((g) => g.items.length === 0) ? (
-          <EmptyState
-            icon={Inbox}
-            message="No active exceptions. Your queue is caught up."
-          />
+          <EmptyState icon={Inbox} message="No active exceptions. Your queue is caught up." />
         ) : (
           groups.map((g) => {
             if (g.items.length === 0) return null;
@@ -103,9 +91,7 @@ function DispatcherWorkbench() {
                   <h2 className="text-[11px] font-medium uppercase tracking-wider text-slate-400">
                     {g.label}
                   </h2>
-                  <span className="tnum text-[11px] text-slate-400">
-                    {g.items.length}
-                  </span>
+                  <span className="tnum text-[11px] text-slate-400">{g.items.length}</span>
                 </div>
                 <div className="space-y-1.5">
                   {g.items.map((e) => (

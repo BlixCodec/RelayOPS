@@ -1,16 +1,11 @@
-import { Filter, Search, Star, X } from "lucide-react";
+import { Star, X } from "lucide-react";
 import { toast } from "sonner";
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { useRelayStore, branchById, techById } from "@/lib/relay/store";
 import { PriorityBadge } from "./priority-badge";
 import { StatusPill } from "./status-pill";
 import { SlaCountdown } from "./sla-countdown";
-import { RecommendationCard } from "./drawer/recommendation";
+import { RecommendationTree } from "./recommendation-tree";
 import { ActivityTracker } from "./drawer/activity-tracker";
 import { CompactDecisionBar } from "./drawer/compact-decision-bar";
 import { cn } from "@/lib/utils";
@@ -84,9 +79,7 @@ export function ExceptionDrawer() {
               <div className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-slate-500">
                 <SlaCountdown dueAt={exception.slaDueAt} />
                 <span className="text-slate-300">·</span>
-                <span className="tnum">
-                  ${exception.revenueAtRisk.toLocaleString()} at risk
-                </span>
+                <span className="tnum">${exception.revenueAtRisk.toLocaleString()} at risk</span>
                 {tech ? (
                   <>
                     <span className="text-slate-300">·</span>
@@ -97,52 +90,60 @@ export function ExceptionDrawer() {
             </SheetHeader>
 
             <div className="flex-1 space-y-6 overflow-y-auto bg-slate-50/40 px-6 py-6">
-              <RecommendationCard rec={exception.recommendation} />
+              <RecommendationTree exception={exception} />
 
               <section>
-                <h3 className="mb-2.5 text-[15px] font-semibold text-slate-900">
-                  Situation
-                </h3>
+                <h3 className="mb-2.5 text-[15px] font-semibold text-slate-900">Situation</h3>
                 <div className="rounded-xl bg-white px-4 py-3 shadow-card ring-1 ring-slate-200/60">
-                  <p className="text-[13px] leading-relaxed text-slate-800">
-                    {exception.issue}
-                  </p>
-                  <p className="mt-1.5 text-[11px] text-slate-500">
-                    {exception.customerHistory}
-                  </p>
+                  <p className="text-[13px] leading-relaxed text-slate-800">{exception.issue}</p>
                   {exception.escalation && !exception.decision ? (
                     <div className="mt-2.5 rounded-md border-l-2 border-amber-400 bg-amber-50/60 px-3 py-2 text-xs text-slate-700">
-                      <span className="font-medium text-amber-800">
-                        Escalation ask ·
-                      </span>{" "}
+                      <span className="font-medium text-amber-800">Escalation ask ·</span>{" "}
                       {exception.escalation.reason}
+                    </div>
+                  ) : null}
+                  {exception.decision ? (
+                    <div
+                      className={cn(
+                        "mt-2.5 rounded-md border-l-2 px-3 py-2 text-xs text-slate-700",
+                        exception.decision.outcome === "approved"
+                          ? "border-emerald-400 bg-emerald-50/60"
+                          : "border-red-400 bg-red-50/60",
+                      )}
+                    >
+                      <span
+                        className={cn(
+                          "font-medium",
+                          exception.decision.outcome === "approved"
+                            ? "text-emerald-800"
+                            : "text-red-800",
+                        )}
+                      >
+                        {exception.decision.outcome === "approved" ? "Approved" : "Denied"} by{" "}
+                        {exception.decision.by} ·
+                      </span>{" "}
+                      {exception.decision.note ?? "Decision returned to Dispatch."}
                     </div>
                   ) : null}
                 </div>
               </section>
 
               <section>
-                <div className="mb-3 flex items-center justify-between">
-                  <h3 className="text-[15px] font-semibold text-slate-900">
-                    Activity Trail
-                  </h3>
-                  <div className="flex items-center gap-1">
-                    <button
-                      type="button"
-                      aria-label="Filter"
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"
-                    >
-                      <Filter className="h-3.5 w-3.5" />
-                    </button>
-                    <button
-                      type="button"
-                      aria-label="Search"
-                      className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 hover:bg-slate-50"
-                    >
-                      <Search className="h-3.5 w-3.5" />
-                    </button>
-                  </div>
+                <h3 className="mb-2.5 text-[15px] font-semibold text-slate-900">
+                  Business Context
+                </h3>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  <ContextStat
+                    label="Revenue at risk"
+                    value={`$${exception.revenueAtRisk.toLocaleString()}`}
+                  />
+                  <ContextStat label="Branch" value={branch?.name ?? "—"} />
+                  <ContextStat label="History" value={exception.customerHistory} wide />
                 </div>
+              </section>
+
+              <section>
+                <h3 className="mb-3 text-[15px] font-semibold text-slate-900">Activity Trail</h3>
                 <ActivityTracker events={exception.audit} />
               </section>
             </div>
@@ -152,5 +153,21 @@ export function ExceptionDrawer() {
         ) : null}
       </SheetContent>
     </Sheet>
+  );
+}
+
+function ContextStat({ label, value, wide }: { label: string; value: string; wide?: boolean }) {
+  return (
+    <div
+      className={cn(
+        "rounded-lg bg-white px-3 py-2 ring-1 ring-slate-200/60",
+        wide && "col-span-2 sm:col-span-1",
+      )}
+    >
+      <div className="text-[10px] font-medium uppercase tracking-wide text-slate-400">{label}</div>
+      <div className="tnum mt-0.5 text-[12.5px] font-medium leading-snug text-slate-800">
+        {value}
+      </div>
+    </div>
   );
 }

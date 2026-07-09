@@ -61,17 +61,13 @@ function Decisions() {
                 return (
                   <tr key={e.id} className="hover:bg-slate-50">
                     <Td>
-                      <div className="font-medium text-slate-900">
-                        {decisionLabel(e)}
-                      </div>
+                      <div className="font-medium text-slate-900">{decisionLabel(e)}</div>
                       <div className="text-[11px] text-slate-400">{e.id}</div>
                     </Td>
                     <Td className="text-slate-800">{e.customer}</Td>
                     <Td className="text-slate-700">{branch?.name}</Td>
                     <Td className="text-slate-700">{e.decision?.by}</Td>
-                    <Td className="tnum text-slate-600">
-                      {formatDate(e.decision!.at)}
-                    </Td>
+                    <Td className="tnum text-slate-600">{formatDate(e.decision!.at)}</Td>
                     <Td>
                       <StatusPill
                         status={e.decision?.outcome === "approved" ? "approved" : "denied"}

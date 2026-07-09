@@ -41,9 +41,7 @@ export function CommandSearch() {
             >
               <span className="tnum mr-2 text-[11px] text-slate-400">{e.id}</span>
               <span className="font-medium">{e.customer}</span>
-              <span className="ml-2 truncate text-xs text-slate-500">
-                {e.issueType}
-              </span>
+              <span className="ml-2 truncate text-xs text-slate-500">{e.issueType}</span>
             </CommandItem>
           ))}
         </CommandGroup>

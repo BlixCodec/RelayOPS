@@ -1,12 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  CircleAlert,
+  ClipboardList,
+  Inbox,
+  Timer,
+  type LucideIcon,
+} from "lucide-react";
 import { useRelayStore, branchById, techById } from "@/lib/relay/store";
 import { branches } from "@/lib/relay/seed";
 import { SlaCountdown, slaTone } from "@/components/relay/sla-countdown";
 import { StatusDot } from "@/components/relay/status-pill";
 import { PriorityBadge } from "@/components/relay/priority-badge";
 import { AvatarInitials } from "@/components/relay/avatar-initials";
+import { RecommendationTree } from "@/components/relay/recommendation-tree";
 import { cn } from "@/lib/utils";
 import type { Exception } from "@/lib/relay/types";
 
@@ -29,7 +37,6 @@ function useGreeting() {
   return g;
 }
 
-
 function relative(iso: string) {
   const diff = Date.now() - new Date(iso).getTime();
   const min = Math.round(diff / 60_000);
@@ -41,12 +48,7 @@ function relative(iso: string) {
 }
 
 function DispatcherToday() {
-  const {
-    exceptions,
-    currentUser,
-    activeBranchId,
-    openDrawer,
-  } = useRelayStore();
+  const { exceptions, currentUser, activeBranchId, openDrawer } = useRelayStore();
   const firstName = currentUser.dispatcher.split(" ")[0];
   const branch = branchById(activeBranchId);
   const greeting = useGreeting();
@@ -56,6 +58,13 @@ function DispatcherToday() {
   const critical = branchActive.filter((e) => e.priority === "critical");
   const escalated = active.filter((e) => e.status === "escalated");
   const mine = active.filter((e) => e.ownerDispatcher === currentUser.dispatcher);
+  const approachingSla = branchActive.filter((e) => {
+    const t = slaTone(e.slaDueAt);
+    return t === "warning" || t === "critical" || t === "breached";
+  }).length;
+  const assignedCount = active.filter(
+    (e) => e.status === "assigned" && e.ownerDispatcher === currentUser.dispatcher,
+  ).length;
 
   const primary = useMemo(() => {
     const rank = { critical: 0, high: 1, medium: 2 } as const;
@@ -70,9 +79,7 @@ function DispatcherToday() {
     const all = branchActive.flatMap((e) =>
       e.audit.map((a) => ({ ...a, customer: e.customer, exceptionId: e.id })),
     );
-    return all
-      .sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime())
-      .slice(0, 6);
+    return all.sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime()).slice(0, 6);
   }, [branchActive]);
 
   const sub =
@@ -83,20 +90,28 @@ function DispatcherToday() {
   return (
     <div className="mx-auto max-w-5xl space-y-6 px-4 py-6 sm:px-8 sm:py-8">
       <section>
-        <h1 className="text-[22px] font-semibold leading-tight tracking-tight text-slate-900" suppressHydrationWarning>
+        <h1
+          className="text-[22px] font-semibold leading-tight tracking-tight text-slate-900"
+          suppressHydrationWarning
+        >
           {greeting}, {firstName}.
         </h1>
         <p className="mt-1 text-[13px] text-slate-500">{sub}</p>
-        <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-slate-500">
-          <span className="font-medium text-slate-700">{branch?.name ?? "Branch"}</span>
-          <span className="text-slate-300">·</span>
-          <span>Today</span>
-          <span className="text-slate-300">·</span>
-          <span>{branchActive.length} active exceptions</span>
-          <span className="text-slate-300">·</span>
-          <span className="text-red-600">{critical.length} critical</span>
-          <span className="text-slate-300">·</span>
-          <span>{escalated.filter((e) => e.branchId === activeBranchId).length} awaiting decision</span>
+        <div className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+          <StatChip
+            icon={CircleAlert}
+            tone="critical"
+            value={critical.length}
+            label="Critical exceptions"
+          />
+          <StatChip icon={Timer} tone="warning" value={approachingSla} label="Approaching SLA" />
+          <StatChip
+            icon={ClipboardList}
+            tone="neutral"
+            value={assignedCount}
+            label="Active assignments"
+          />
+          <StatChip icon={Inbox} tone="neutral" value={escalated.length} label="Awaiting manager" />
         </div>
       </section>
 
@@ -167,9 +182,7 @@ function PrimaryCard({ ex, onOpen }: { ex: Exception; onOpen: () => void }) {
     <div
       className={cn(
         "rounded-2xl border bg-white p-5 shadow-card sm:p-6",
-        tone === "breached" || tone === "critical"
-          ? "border-red-200"
-          : "border-slate-200",
+        tone === "breached" || tone === "critical" ? "border-red-200" : "border-slate-200",
       )}
     >
       <div className="flex items-center gap-2">
@@ -188,12 +201,8 @@ function PrimaryCard({ ex, onOpen }: { ex: Exception; onOpen: () => void }) {
         <span className="tnum">${ex.revenueAtRisk.toLocaleString()} at risk</span>
       </div>
 
-      <div className="mt-4 flex items-start gap-2 rounded-lg border border-violet-100 bg-violet-50/60 px-3 py-2 text-[12.5px] text-violet-900">
-        <Sparkles className="mt-0.5 h-3.5 w-3.5 shrink-0" strokeWidth={2} />
-        <span>
-          <span className="font-medium">Recommendation · </span>
-          {ex.recommendation.action}
-        </span>
+      <div className="mt-4">
+        <RecommendationTree exception={ex} />
       </div>
 
       <div className="mt-5 flex justify-end">
@@ -205,6 +214,38 @@ function PrimaryCard({ ex, onOpen }: { ex: Exception; onOpen: () => void }) {
           Open exception
           <ArrowRight className="h-3.5 w-3.5" />
         </button>
+      </div>
+    </div>
+  );
+}
+
+function StatChip({
+  icon: Icon,
+  tone,
+  value,
+  label,
+}: {
+  icon: LucideIcon;
+  tone: "critical" | "warning" | "neutral";
+  value: number;
+  label: string;
+}) {
+  const toneClass =
+    tone === "critical"
+      ? "bg-red-50 text-red-600"
+      : tone === "warning"
+        ? "bg-amber-50 text-amber-600"
+        : "bg-slate-100 text-slate-500";
+  return (
+    <div className="flex items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-3 py-2.5 shadow-card">
+      <span
+        className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg", toneClass)}
+      >
+        <Icon className="h-4 w-4" strokeWidth={2} />
+      </span>
+      <div className="min-w-0">
+        <div className="tnum text-[17px] font-semibold leading-none text-slate-900">{value}</div>
+        <div className="mt-0.5 truncate text-[11px] text-slate-500">{label}</div>
       </div>
     </div>
   );

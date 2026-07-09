@@ -40,10 +40,7 @@ function MyAssignments() {
       ),
     [exceptions, currentUser],
   );
-  const team = useMemo(
-    () => exceptions.filter((e) => e.status !== "resolved"),
-    [exceptions],
-  );
+  const team = useMemo(() => exceptions.filter((e) => e.status !== "resolved"), [exceptions]);
 
   const rows = tab === "mine" ? mine : team;
 
@@ -100,9 +97,7 @@ function MyAssignments() {
                         </div>
                       </div>
                     </Td>
-                    <Td className="max-w-[280px] truncate text-slate-600">
-                      {e.issueType}
-                    </Td>
+                    <Td className="max-w-[280px] truncate text-slate-600">{e.issueType}</Td>
                     <Td>
                       <SlaCountdown dueAt={e.slaDueAt} />
                     </Td>

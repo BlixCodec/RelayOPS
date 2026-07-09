@@ -3,11 +3,7 @@ import { UserPlus, ArrowUpRight, Check, SendHorizonal, Sparkles, Loader2 } from 
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Dialog,
   DialogContent,
@@ -121,12 +117,8 @@ export function CompactDecisionBar({ exception }: { exception: Exception }) {
                   className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-sm hover:bg-slate-50"
                 >
                   <AvatarInitials name={t.name} size={22} />
-                  <span className="flex-1 truncate font-medium text-slate-800">
-                    {t.name}
-                  </span>
-                  <span className="tnum text-[11px] text-slate-500">
-                    {t.minutesAway}m
-                  </span>
+                  <span className="flex-1 truncate font-medium text-slate-800">{t.name}</span>
+                  <span className="tnum text-[11px] text-slate-500">{t.minutesAway}m</span>
                 </button>
               ))}
             </div>
@@ -245,9 +237,7 @@ export function CompactDecisionBar({ exception }: { exception: Exception }) {
               )}
               {improving ? "Rewriting…" : "Improve with AI"}
             </button>
-            <span className="text-[10px] text-slate-400">
-              ⌘↵ to send
-            </span>
+            <span className="text-[10px] text-slate-400">⌘↵ to send</span>
           </div>
         ) : null}
       </div>

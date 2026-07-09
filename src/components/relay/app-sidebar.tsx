@@ -80,9 +80,7 @@ export function AppSidebar() {
   const nav = role === "dispatcher" ? dispatcherNav : managerNav;
   const navLabel = role === "dispatcher" ? "Dispatcher" : "Regional Operations";
 
-  const favorites = exceptions.filter((e) =>
-    (e.favoritedBy ?? []).includes(role as Role),
-  );
+  const favorites = exceptions.filter((e) => (e.favoritedBy ?? []).includes(role as Role));
 
   return (
     <>
@@ -213,12 +211,8 @@ export function AppSidebar() {
           >
             <AvatarInitials name={user} size={28} />
             <div className="min-w-0 flex-1 group-data-[collapsible=icon]:hidden">
-              <div className="truncate text-[13px] font-medium text-slate-900">
-                {user}
-              </div>
-              <div className="truncate text-[11px] text-slate-500 capitalize">
-                {role}
-              </div>
+              <div className="truncate text-[13px] font-medium text-slate-900">{user}</div>
+              <div className="truncate text-[11px] text-slate-500 capitalize">{role}</div>
             </div>
             <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 text-slate-400 group-data-[collapsible=icon]:hidden" />
           </button>

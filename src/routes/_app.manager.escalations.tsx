@@ -38,10 +38,7 @@ function AllEscalations() {
 
   const rows = useMemo(() => {
     const withEsc = exceptions.filter((e) => e.escalation);
-    const byStatus =
-      filter === "all"
-        ? withEsc
-        : withEsc.filter((e) => e.status === filter);
+    const byStatus = filter === "all" ? withEsc : withEsc.filter((e) => e.status === filter);
     if (!q.trim()) return byStatus;
     const needle = q.toLowerCase();
     return byStatus.filter(
@@ -68,9 +65,7 @@ function AllEscalations() {
                 onClick={() => setFilter(f.key)}
                 className={cn(
                   "rounded px-2.5 py-1 text-[12px] transition-colors",
-                  filter === f.key
-                    ? "bg-slate-900 text-white"
-                    : "text-slate-600 hover:bg-slate-50",
+                  filter === f.key ? "bg-slate-900 text-white" : "text-slate-600 hover:bg-slate-50",
                 )}
               >
                 {f.label}
@@ -116,15 +111,19 @@ function AllEscalations() {
                       <div className="text-[11px] text-slate-400">{e.id}</div>
                     </Td>
                     <Td className="text-slate-700">{branch?.name}</Td>
-                    <Td><PriorityBadge priority={e.priority} /></Td>
+                    <Td>
+                      <PriorityBadge priority={e.priority} />
+                    </Td>
                     <Td className="max-w-[320px] truncate text-slate-600">
                       {e.escalation?.reason}
                     </Td>
-                    <Td><StatusPill status={e.status} /></Td>
-                    <Td><SlaCountdown dueAt={e.slaDueAt} /></Td>
-                    <Td className="tnum text-slate-600">
-                      {formatDate(e.escalation!.at)}
+                    <Td>
+                      <StatusPill status={e.status} />
                     </Td>
+                    <Td>
+                      <SlaCountdown dueAt={e.slaDueAt} />
+                    </Td>
+                    <Td className="tnum text-slate-600">{formatDate(e.escalation!.at)}</Td>
                     <Td className="text-slate-700">{e.escalation?.by}</Td>
                   </tr>
                 );

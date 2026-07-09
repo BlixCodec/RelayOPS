@@ -22,14 +22,10 @@ export function PageHeader({
         <h1 className="text-[15px] font-semibold leading-tight tracking-tight text-slate-900 sm:text-[19px]">
           {title}
         </h1>
-        <p className="mt-1 text-[12px] text-slate-500 sm:text-[13px]">
-          {guidance}
-        </p>
+        <p className="mt-1 text-[12px] text-slate-500 sm:text-[13px]">{guidance}</p>
       </div>
       {actions ? (
-        <div className="flex items-center justify-center gap-2 sm:justify-end">
-          {actions}
-        </div>
+        <div className="flex items-center justify-center gap-2 sm:justify-end">{actions}</div>
       ) : null}
     </div>
   );

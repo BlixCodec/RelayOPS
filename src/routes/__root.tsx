@@ -48,9 +48,7 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
         <h1 className="text-xl font-semibold tracking-tight text-foreground">
           Something interrupted this view
         </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Refreshing usually resolves it.
-        </p>
+        <p className="mt-2 text-sm text-muted-foreground">Refreshing usually resolves it.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
           <button
             onClick={() => {
@@ -90,8 +88,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       {
         property: "og:description",
-        content:
-          "Decision-first exception management for multi-branch field-service operations.",
+        content: "Decision-first exception management for multi-branch field-service operations.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

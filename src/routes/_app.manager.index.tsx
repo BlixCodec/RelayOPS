@@ -18,17 +18,11 @@ function DecisionQueue() {
   const filteredBranch = branchById(favoriteFilter ?? "");
 
   const scoped = useMemo(
-    () =>
-      favoriteFilter
-        ? exceptions.filter((e) => e.branchId === favoriteFilter)
-        : exceptions,
+    () => (favoriteFilter ? exceptions.filter((e) => e.branchId === favoriteFilter) : exceptions),
     [exceptions, favoriteFilter],
   );
 
-  const pending = useMemo(
-    () => scoped.filter((e) => e.status === "escalated"),
-    [scoped],
-  );
+  const pending = useMemo(() => scoped.filter((e) => e.status === "escalated"), [scoped]);
 
   const headline =
     pending.length === 0

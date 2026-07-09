@@ -13,13 +13,7 @@ const label: Record<Priority, string> = {
   medium: "Medium",
 };
 
-export function PriorityBadge({
-  priority,
-  className,
-}: {
-  priority: Priority;
-  className?: string;
-}) {
+export function PriorityBadge({ priority, className }: { priority: Priority; className?: string }) {
   return (
     <span
       className={cn(

@@ -79,13 +79,7 @@ export function BranchHealthPill({
   );
 }
 
-export function StatusPill({
-  status,
-  className,
-}: {
-  status: ExceptionStatus;
-  className?: string;
-}) {
+export function StatusPill({ status, className }: { status: ExceptionStatus; className?: string }) {
   const t = statusTone[status];
   return (
     <span
@@ -103,13 +97,7 @@ export function StatusPill({
   );
 }
 
-export function StatusDot({
-  status,
-  className,
-}: {
-  status: ExceptionStatus;
-  className?: string;
-}) {
+export function StatusDot({ status, className }: { status: ExceptionStatus; className?: string }) {
   return (
     <span
       className={cn("inline-block h-1.5 w-1.5 rounded-full", statusTone[status].dot, className)}

@@ -1,9 +1,4 @@
-import type {
-  Branch,
-  Exception,
-  Notification,
-  Technician,
-} from "./types";
+import type { Branch, Exception, Notification, Technician } from "./types";
 
 const now = Date.now();
 const mins = (n: number) => new Date(now + n * 60_000).toISOString();
@@ -24,11 +19,26 @@ export const branches: Branch[] = [
 ];
 
 export const technicians: Technician[] = [
-  { id: "marcus", name: "Marcus Reyes", certifications: ["Refrigeration", "Electrical"], minutesAway: 8 },
+  {
+    id: "marcus",
+    name: "Marcus Reyes",
+    certifications: ["Refrigeration", "Electrical"],
+    minutesAway: 8,
+  },
   { id: "dana", name: "Dana Whitfield", certifications: ["Refrigeration"], minutesAway: 22 },
   { id: "priya", name: "Priya Anand", certifications: ["Plumbing", "Boiler"], minutesAway: 14 },
-  { id: "sam", name: "Sam Okafor", certifications: ["Electrical", "Access Control"], minutesAway: 30 },
-  { id: "lena", name: "Lena Kowalski", certifications: ["Refrigeration", "Compressor"], minutesAway: 40 },
+  {
+    id: "sam",
+    name: "Sam Okafor",
+    certifications: ["Electrical", "Access Control"],
+    minutesAway: 30,
+  },
+  {
+    id: "lena",
+    name: "Lena Kowalski",
+    certifications: ["Refrigeration", "Compressor"],
+    minutesAway: 40,
+  },
 ];
 
 export const initialExceptions: Exception[] = [
@@ -224,7 +234,13 @@ export const initialExceptions: Exception[] = [
       ],
     },
     audit: [
-      { id: "d1", at: hrsAgo(0.75), actor: "System", actorRole: "system", action: "Alarm callback opened" },
+      {
+        id: "d1",
+        at: hrsAgo(0.75),
+        actor: "System",
+        actorRole: "system",
+        action: "Alarm callback opened",
+      },
       {
         id: "d2",
         at: hrsAgo(0.5),
@@ -238,8 +254,7 @@ export const initialExceptions: Exception[] = [
     id: "EX-2038",
     customer: "Harbor Freight Terminal",
     issueType: "Parts delay · access control",
-    issue:
-      "Gate controller replacement backordered 48 hours; site running manual gate coverage.",
+    issue: "Gate controller replacement backordered 48 hours; site running manual gate coverage.",
     branchId: "west",
     priority: "high",
     status: "open",
@@ -259,7 +274,13 @@ export const initialExceptions: Exception[] = [
       ],
     },
     audit: [
-      { id: "e1", at: hrsAgo(4), actor: "System", actorRole: "system", action: "Exception opened · parts ETA slipped" },
+      {
+        id: "e1",
+        at: hrsAgo(4),
+        actor: "System",
+        actorRole: "system",
+        action: "Exception opened · parts ETA slipped",
+      },
     ],
   },
   {
@@ -286,7 +307,13 @@ export const initialExceptions: Exception[] = [
       ],
     },
     audit: [
-      { id: "f1", at: hrsAgo(6), actor: "System", actorRole: "system", action: "Compliance timer opened" },
+      {
+        id: "f1",
+        at: hrsAgo(6),
+        actor: "System",
+        actorRole: "system",
+        action: "Compliance timer opened",
+      },
       {
         id: "f2",
         at: hrsAgo(5),
@@ -317,7 +344,13 @@ export const initialExceptions: Exception[] = [
       bullets: ["Root cause identified", "Parts on truck", "Retest scheduled"],
     },
     audit: [
-      { id: "g1", at: hrsAgo(28), actor: "System", actorRole: "system", action: "Exception opened" },
+      {
+        id: "g1",
+        at: hrsAgo(28),
+        actor: "System",
+        actorRole: "system",
+        action: "Exception opened",
+      },
       {
         id: "g2",
         at: hrsAgo(26),
@@ -356,7 +389,13 @@ export const initialExceptions: Exception[] = [
       bullets: ["Leak isolated to Schrader valve", "Parts in stock"],
     },
     audit: [
-      { id: "h1", at: hrsAgo(48), actor: "System", actorRole: "system", action: "Exception opened" },
+      {
+        id: "h1",
+        at: hrsAgo(48),
+        actor: "System",
+        actorRole: "system",
+        action: "Exception opened",
+      },
       {
         id: "h2",
         at: hrsAgo(44),
@@ -428,7 +467,12 @@ export const initialDecisionHistory: Exception[] = [
       at: hrsAgo(96),
       note: "Denied at $2,500. Counter with $1,000 credit plus complimentary quarterly PM through year-end.",
     },
-    recommendation: { action: "Partial credit", quality: "Medium Confidence", bullets: [], signalsCount: 0 },
+    recommendation: {
+      action: "Partial credit",
+      quality: "Medium Confidence",
+      bullets: [],
+      signalsCount: 0,
+    },
     audit: [],
   },
   {
@@ -529,8 +573,4 @@ export const initialNotifications: Notification[] = [
   },
 ];
 
-export const favoritesList = [
-  "EX-2041",
-  "EX-2039",
-  "EX-2044",
-];
+export const favoritesList = ["EX-2041", "EX-2039", "EX-2044"];

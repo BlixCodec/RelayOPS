@@ -40,9 +40,7 @@ export function DecisionRow({ exception }: { exception: Exception }) {
         </h3>
 
         {exception.escalation ? (
-          <p className="mt-1 text-xs italic text-slate-700">
-            "{exception.escalation.reason}"
-          </p>
+          <p className="mt-1 text-xs italic text-slate-700">"{exception.escalation.reason}"</p>
         ) : null}
 
         <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-500">
@@ -51,12 +49,8 @@ export function DecisionRow({ exception }: { exception: Exception }) {
             <CompanyLogo name={branch?.name ?? "Branch"} size={14} />
             {branch?.name}
           </span>
-          <span className="tnum">
-            ${exception.revenueAtRisk.toLocaleString()} at risk
-          </span>
-          <span className="ml-auto text-violet-700">
-            {exception.recommendation.quality}
-          </span>
+          <span className="tnum">${exception.revenueAtRisk.toLocaleString()} at risk</span>
+          <span className="ml-auto text-violet-700">{exception.recommendation.quality}</span>
         </div>
       </div>
 
@@ -74,10 +68,7 @@ export function DecisionRow({ exception }: { exception: Exception }) {
           exceptionId={exception.id}
           customer={exception.customer}
           trigger={
-            <Button
-              variant="ghost"
-              className="min-w-[110px] text-slate-600 hover:text-slate-900"
-            >
+            <Button variant="ghost" className="min-w-[110px] text-slate-600 hover:text-slate-900">
               Deny
             </Button>
           }

@@ -22,13 +22,9 @@ function RoleSelect() {
           <span className="flex h-6 w-6 items-center justify-center rounded-md bg-slate-900 text-[11px] font-bold text-white">
             R
           </span>
-          <span className="text-[15px] font-semibold tracking-tight text-slate-900">
-            RelayOps
-          </span>
+          <span className="text-[15px] font-semibold tracking-tight text-slate-900">RelayOps</span>
         </span>
-        <span className="ml-3 text-xs text-slate-400">
-          · Meridian Field Services
-        </span>
+        <span className="ml-3 text-xs text-slate-400">· Meridian Field Services</span>
       </header>
 
       <main className="flex flex-1 items-center justify-center px-6">
@@ -41,7 +37,8 @@ function RoleSelect() {
               Which role are you signing in for?
             </h1>
             <p className="mt-2 text-sm text-slate-500">
-              RelayOps organizes exception decisions for two roles that both make calls · pick the one that matches the work you're doing.
+              RelayOps organizes exception decisions for two roles that both make calls · pick the
+              one that matches the work you're doing.
             </p>
           </div>
 
@@ -61,7 +58,8 @@ function RoleSelect() {
           </div>
 
           <p className="mx-auto mt-8 max-w-md text-center text-[11px] leading-relaxed text-slate-400">
-            Built for evaluation with local mock data. Authentication, notifications, and persistence are intentionally stubbed.
+            Built for evaluation with local mock data. Authentication, notifications, and
+            persistence are intentionally stubbed.
           </p>
         </div>
       </main>

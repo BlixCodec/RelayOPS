@@ -19,7 +19,7 @@ function format(ms: number) {
 // Urgency thresholds (single source of truth)
 export const SLA_THRESHOLDS = {
   critical: 15, // minutes, red + pulse
-  warning: 60,  // minutes, amber
+  warning: 60, // minutes, amber
 };
 
 export type SlaTone = "breached" | "critical" | "warning" | "calm";
@@ -63,7 +63,7 @@ export function SlaCountdown({
         : `SLA breached · ${format(diff)} ago`
       : compact
         ? format(diff)
-          : `${format(diff)} to SLA`;
+        : `${format(diff)} to SLA`;
 
   return (
     <span
@@ -77,9 +77,7 @@ export function SlaCountdown({
     >
       {showIcon ? <Timer className="h-3 w-3" strokeWidth={2} /> : null}
       {tone !== "calm" ? (
-        <span
-          className={cn("h-1.5 w-1.5 rounded-full", t.dot, t.pulse && "animate-pulse")}
-        />
+        <span className={cn("h-1.5 w-1.5 rounded-full", t.dot, t.pulse && "animate-pulse")} />
       ) : null}
       {label}
     </span>
@@ -93,18 +91,12 @@ export function slaBucket(dueAt: string): "overdue" | "under60" | "today" {
   return "today";
 }
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 export function SlaLegend({ className }: { className?: string }) {
   const item = (dotClass: string, label: string, pulse?: boolean) => (
     <span className="inline-flex items-center gap-1.5 text-[11px] text-slate-600">
-      <span
-        className={cn("h-1.5 w-1.5 rounded-full", dotClass, pulse && "animate-pulse")}
-      />
+      <span className={cn("h-1.5 w-1.5 rounded-full", dotClass, pulse && "animate-pulse")} />
       {label}
     </span>
   );

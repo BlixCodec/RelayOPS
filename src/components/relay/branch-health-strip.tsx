@@ -11,9 +11,7 @@ export function BranchHealthStrip() {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-[11px] uppercase tracking-wider text-slate-400">
-        Branch Health
-      </span>
+      <span className="text-[11px] uppercase tracking-wider text-slate-400">Branch Health</span>
       <div className="flex flex-wrap gap-2">
         {shown.map((b) => (
           <BranchHealthPill key={b.id} branch={b.name} health={b.health} />

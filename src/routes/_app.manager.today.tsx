@@ -31,9 +31,8 @@ function ManagerToday() {
   const criticalBranch = branches.filter((b) => b.health === "critical").length;
   const decisionsToday = useMemo(() => {
     const cutoff = Date.now() - 24 * 3_600_000;
-    return [
-      ...exceptions.filter((e) => e.decision && new Date(e.decision.at).getTime() > cutoff),
-    ].length;
+    return [...exceptions.filter((e) => e.decision && new Date(e.decision.at).getTime() > cutoff)]
+      .length;
   }, [exceptions]);
 
   const primary = useMemo(() => {
@@ -51,14 +50,9 @@ function ManagerToday() {
       : `${escalated.length} decision${escalated.length === 1 ? " is" : "s are"} currently blocking dispatch.`;
 
   const recent = useMemo(() => {
-    return [
-      ...exceptions.filter((e) => e.decision),
-      ...decisionHistory,
-    ]
+    return [...exceptions.filter((e) => e.decision), ...decisionHistory]
       .filter((e) => e.decision)
-      .sort(
-        (a, b) => new Date(b.decision!.at).getTime() - new Date(a.decision!.at).getTime(),
-      )
+      .sort((a, b) => new Date(b.decision!.at).getTime() - new Date(a.decision!.at).getTime())
       .slice(0, 6);
   }, [exceptions, decisionHistory]);
 
@@ -211,13 +205,9 @@ function AiRecommendationCard({ ex }: { ex: Exception }) {
         <span className="text-[11px] font-semibold uppercase tracking-wider text-violet-700">
           AI recommendation
         </span>
-        <span className="ml-auto text-[11px] text-violet-700/80">
-          {ex.recommendation.quality}
-        </span>
+        <span className="ml-auto text-[11px] text-violet-700/80">{ex.recommendation.quality}</span>
       </div>
-      <p className="mt-2 text-[14px] font-medium text-slate-900">
-        {ex.recommendation.action}
-      </p>
+      <p className="mt-2 text-[14px] font-medium text-slate-900">{ex.recommendation.action}</p>
       {ex.recommendation.bullets.length > 0 ? (
         <ul className="mt-2 space-y-1 text-[12.5px] text-slate-700">
           {ex.recommendation.bullets.map((b, i) => (

@@ -49,11 +49,7 @@ export function DenyDialog({
           />
         </div>
         <DialogFooter>
-          <Button
-            variant="ghost"
-            className="text-slate-600"
-            onClick={() => setOpen(false)}
-          >
+          <Button variant="ghost" className="text-slate-600" onClick={() => setOpen(false)}>
             Cancel
           </Button>
           <Button

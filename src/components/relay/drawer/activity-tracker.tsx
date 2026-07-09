@@ -1,10 +1,4 @@
-import {
-  ArrowUpRight,
-  Bookmark,
-  CheckCircle2,
-  MoreHorizontal,
-  XCircle,
-} from "lucide-react";
+import { ArrowUpRight, Bookmark, CheckCircle2, MoreHorizontal, XCircle } from "lucide-react";
 import { AvatarInitials } from "../avatar-initials";
 import { roleFor } from "@/lib/relay/people";
 import { useNow } from "@/lib/relay/use-now";
@@ -36,7 +30,13 @@ function highlightKind(e: AuditEvent): HighlightKind | null {
 
 const highlightMap: Record<
   HighlightKind,
-  { icon: React.ComponentType<{ className?: string }>; bg: string; border: string; text: string; label: string }
+  {
+    icon: React.ComponentType<{ className?: string }>;
+    bg: string;
+    border: string;
+    text: string;
+    label: string;
+  }
 > = {
   resolved: {
     icon: CheckCircle2,
@@ -86,17 +86,9 @@ function EventCard({ e, now }: { e: AuditEvent; now: number }) {
     const cfg = highlightMap[hi];
     const Icon = cfg.icon;
     return (
-      <div
-        className={cn(
-          "rounded-xl border px-4 py-3 shadow-card",
-          cfg.bg,
-          cfg.border,
-        )}
-      >
+      <div className={cn("rounded-xl border px-4 py-3 shadow-card", cfg.bg, cfg.border)}>
         <div className="flex items-center justify-between">
-          <span className="tnum text-[11px] font-medium text-slate-500">
-            {relative(e.at, now)}
-          </span>
+          <span className="tnum text-[11px] font-medium text-slate-500">{relative(e.at, now)}</span>
           <div className="flex items-center gap-1 text-slate-400">
             <button
               type="button"
@@ -116,12 +108,12 @@ function EventCard({ e, now }: { e: AuditEvent; now: number }) {
         </div>
         <div className={cn("mt-1.5 flex items-center gap-2 text-[13px] font-medium", cfg.text)}>
           <Icon className="h-4 w-4 shrink-0" />
-          <span>{cfg.label}: {e.action}</span>
+          <span>
+            {cfg.label}: {e.action}
+          </span>
         </div>
         {e.note ? (
-          <p className={cn("mt-1.5 text-[12px] italic", cfg.text, "opacity-90")}>
-            "{e.note}"
-          </p>
+          <p className={cn("mt-1.5 text-[12px] italic", cfg.text, "opacity-90")}>"{e.note}"</p>
         ) : null}
       </div>
     );
@@ -130,9 +122,7 @@ function EventCard({ e, now }: { e: AuditEvent; now: number }) {
   return (
     <div className="rounded-xl bg-white px-4 py-3 shadow-card ring-1 ring-slate-200/60">
       <div className="flex items-center justify-between">
-        <span className="tnum text-[11px] font-medium text-slate-400">
-          {relative(e.at, now)}
-        </span>
+        <span className="tnum text-[11px] font-medium text-slate-400">{relative(e.at, now)}</span>
         <div className="flex items-center gap-1 text-slate-300">
           <button
             type="button"
@@ -150,13 +140,9 @@ function EventCard({ e, now }: { e: AuditEvent; now: number }) {
           </button>
         </div>
       </div>
-      <p className="mt-1.5 text-[13px] leading-relaxed text-slate-800">
-        {e.action}
-      </p>
+      <p className="mt-1.5 text-[13px] leading-relaxed text-slate-800">{e.action}</p>
       {e.note ? (
-        <p className="mt-1.5 text-[12px] leading-relaxed text-slate-600">
-          {e.note}
-        </p>
+        <p className="mt-1.5 text-[12px] leading-relaxed text-slate-600">{e.note}</p>
       ) : null}
     </div>
   );
@@ -181,9 +167,7 @@ export function ActivityTracker({ events }: { events: AuditEvent[] }) {
                   {head.actor}
                 </div>
                 {role ? (
-                  <div className="text-[11px] leading-tight text-slate-400">
-                    {role}
-                  </div>
+                  <div className="text-[11px] leading-tight text-slate-400">{role}</div>
                 ) : null}
               </div>
             </div>

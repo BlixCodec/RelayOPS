@@ -3,12 +3,7 @@ export type Role = "dispatcher" | "manager";
 export type Priority = "critical" | "high" | "medium";
 
 export type ExceptionStatus =
-  | "open"
-  | "assigned"
-  | "escalated"
-  | "approved"
-  | "denied"
-  | "resolved";
+  "open" | "assigned" | "escalated" | "approved" | "denied" | "resolved";
 
 export type BranchHealth = "stable" | "high_load" | "critical";
 

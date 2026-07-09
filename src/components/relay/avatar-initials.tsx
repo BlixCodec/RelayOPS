@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { portraitUrl } from "@/lib/relay/people";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 function initials(name: string) {
   return name
@@ -146,12 +142,7 @@ export function AvatarCluster({
     <div className="flex items-center justify-center">
       <div className="flex -space-x-1.5">
         {shown.map((n) => (
-          <AvatarWithTooltip
-            key={n}
-            name={n}
-            size={size}
-            active={activeSet.has(n)}
-          />
+          <AvatarWithTooltip key={n} name={n} size={size} active={activeSet.has(n)} />
         ))}
       </div>
       {extra > 0 ? (

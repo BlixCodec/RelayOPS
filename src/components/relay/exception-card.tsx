@@ -39,9 +39,7 @@ export function ExceptionCard({ exception }: { exception: Exception }) {
       <div className="relative flex min-w-0 items-center gap-2">
         <LocationBadge name={exception.customer} size={22} />
         <PriorityBadge priority={exception.priority} />
-        <span className="tnum hidden text-[11px] text-slate-400 sm:inline">
-          {exception.id}
-        </span>
+        <span className="tnum hidden text-[11px] text-slate-400 sm:inline">{exception.id}</span>
         <span className="ml-auto flex shrink-0 items-center gap-1">
           <button
             type="button"
@@ -72,10 +70,7 @@ export function ExceptionCard({ exception }: { exception: Exception }) {
             className="relative rounded p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"
           >
             <ChevronDown
-              className={cn(
-                "h-3.5 w-3.5 transition-transform",
-                collapsed && "-rotate-90",
-              )}
+              className={cn("h-3.5 w-3.5 transition-transform", collapsed && "-rotate-90")}
             />
           </button>
         </span>
@@ -116,9 +111,7 @@ export function ExceptionCard({ exception }: { exception: Exception }) {
               <span className="capitalize">{exception.status}</span>
             </span>
             <span className="hidden sm:inline">{branch?.name ?? "·"}</span>
-            <span className="tnum">
-              ${exception.revenueAtRisk.toLocaleString()} at risk
-            </span>
+            <span className="tnum">${exception.revenueAtRisk.toLocaleString()} at risk</span>
             {tech ? (
               <span className="ml-auto hidden items-center gap-1.5 sm:inline-flex">
                 <AvatarInitials name={tech.name} size={16} />

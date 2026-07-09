@@ -65,16 +65,16 @@ function Resolved() {
                         </div>
                       </div>
                     </Td>
-                    <Td className="max-w-[280px] truncate text-slate-600">
-                      {e.issueType}
-                    </Td>
+                    <Td className="max-w-[280px] truncate text-slate-600">{e.issueType}</Td>
                     <Td className="text-slate-700">
                       <span className="inline-flex items-center gap-2">
                         <CompanyLogo name={branch?.name ?? "Branch"} size={18} />
                         {branch?.name}
                       </span>
                     </Td>
-                    <Td><PriorityBadge priority={e.priority} /></Td>
+                    <Td>
+                      <PriorityBadge priority={e.priority} />
+                    </Td>
                     <Td className="tnum text-slate-600">
                       <ClientDate iso={lastAudit?.at ?? e.createdAt} />
                     </Td>
@@ -84,7 +84,9 @@ function Resolved() {
                         <span>{tech?.name ?? e.ownerDispatcher}</span>
                       </span>
                     </Td>
-                    <Td><StatusPill status="resolved" /></Td>
+                    <Td>
+                      <StatusPill status="resolved" />
+                    </Td>
                   </tr>
                 );
               })}

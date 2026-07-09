@@ -1,12 +1,6 @@
 import { useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
-import {
-  ClipboardList,
-  FileCheck2,
-  Gauge,
-  ListChecks,
-  Sun,
-} from "lucide-react";
+import { ClipboardList, FileCheck2, Gauge, ListChecks, Sun } from "lucide-react";
 import { useRelayStore } from "@/lib/relay/store";
 import { AvatarInitials } from "./avatar-initials";
 import { RoleSwitchDialog } from "./role-switch-dialog";
@@ -71,9 +65,7 @@ export function MobileBottomNav() {
           aria-label="Switch profile"
         >
           <AvatarInitials name={user} size={20} />
-          <span className={cn(switchOpen && "font-medium")}>
-            {user.split(" ")[0]}
-          </span>
+          <span className={cn(switchOpen && "font-medium")}>{user.split(" ")[0]}</span>
         </button>
       </nav>
       <RoleSwitchDialog open={switchOpen} onOpenChange={setSwitchOpen} />

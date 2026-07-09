@@ -101,7 +101,9 @@ export function RoleSwitchDialog({
           <Button variant="ghost" onClick={() => onOpenChange(false)} className="text-slate-600">
             Cancel
           </Button>
-          <Button onClick={confirm}>Continue as {pending === "dispatcher" ? "Dispatcher" : "Ops Manager"}</Button>
+          <Button onClick={confirm}>
+            Continue as {pending === "dispatcher" ? "Dispatcher" : "Ops Manager"}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

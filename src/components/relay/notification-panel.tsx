@@ -83,8 +83,8 @@ export function NotificationPopoverContent({ onNavigate }: { onNavigate?: () => 
         <div>
           <div className="text-[13px] font-semibold text-slate-900">Notifications</div>
           <div className="text-[11px] text-slate-500">
-            {notifications.filter((n) => !n.read).length} unread ·{" "}
-            {groups.length} {groups.length === 1 ? "group" : "groups"}
+            {notifications.filter((n) => !n.read).length} unread · {groups.length}{" "}
+            {groups.length === 1 ? "group" : "groups"}
           </div>
         </div>
         <button
@@ -159,7 +159,12 @@ function Group({
         <span className="text-[12px] font-semibold text-slate-800">{label}</span>
         <span className="tnum text-[11px] text-slate-400">{items.length}</span>
         {unread > 0 ? (
-          <span className={cn("ml-auto inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[10px] font-medium text-white", dotTone[kind])}>
+          <span
+            className={cn(
+              "ml-auto inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[10px] font-medium text-white",
+              dotTone[kind],
+            )}
+          >
             {unread} new
           </span>
         ) : null}
@@ -173,12 +178,7 @@ function Group({
       </button>
 
       {open ? (
-        <ul
-          className={cn(
-            "ml-4 mt-0.5 space-y-0.5 border-l pl-3",
-            railTone[kind],
-          )}
-        >
+        <ul className={cn("ml-4 mt-0.5 space-y-0.5 border-l pl-3", railTone[kind])}>
           {shown.map((n) => (
             <li key={n.id} className="relative">
               {/* rail dot */}
