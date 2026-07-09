@@ -33,6 +33,7 @@ interface RelayState {
   markAllRead: () => void;
   markRead: (id: string) => void;
   toggleCardCollapsed: (id: string) => void;
+  setCardCollapsed: (id: string, value: boolean) => void;
   setFavoriteFilter: (branchId: string | null) => void;
 
   escalate: (id: string, reason: string) => void;
@@ -65,6 +66,11 @@ export const useRelayStore = create<RelayState>()(
       toggleCardCollapsed: (id) =>
         set((s) => ({
           collapsedCards: { ...s.collapsedCards, [id]: !s.collapsedCards[id] },
+        })),
+
+      setCardCollapsed: (id, value) =>
+        set((s) => ({
+          collapsedCards: { ...s.collapsedCards, [id]: value },
         })),
 
       setFavoriteFilter: (favoriteFilter) => set({ favoriteFilter }),

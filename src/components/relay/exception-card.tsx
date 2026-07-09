@@ -12,12 +12,21 @@ import { RecommendationTree } from "./recommendation-tree";
 import { cn } from "@/lib/utils";
 import type { Exception } from "@/lib/relay/types";
 
-export function ExceptionCard({ exception }: { exception: Exception }) {
+export function ExceptionCard({
+  exception,
+  defaultExpanded = true,
+}: {
+  exception: Exception;
+  defaultExpanded?: boolean;
+}) {
   const openDrawer = useRelayStore((s) => s.openDrawer);
   const toggleFavorite = useRelayStore((s) => s.toggleFavorite);
   const role = useRelayStore((s) => s.role);
-  const collapsed = useRelayStore((s) => !!s.collapsedCards[exception.id]);
-  const toggleCollapsed = useRelayStore((s) => s.toggleCardCollapsed);
+  // Absent store entry falls back to the per-card default; an explicit user
+  // toggle always wins.
+  const storedCollapsed = useRelayStore((s) => s.collapsedCards[exception.id]);
+  const setCardCollapsed = useRelayStore((s) => s.setCardCollapsed);
+  const collapsed = storedCollapsed ?? !defaultExpanded;
 
   const branch = branchById(exception.branchId);
   const tech = techById(exception.assignedTech);
@@ -65,7 +74,7 @@ export function ExceptionCard({ exception }: { exception: Exception }) {
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              toggleCollapsed(exception.id);
+              setCardCollapsed(exception.id, !collapsed);
             }}
             aria-label={collapsed ? "Expand" : "Collapse"}
             className="relative rounded p-1 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-700"

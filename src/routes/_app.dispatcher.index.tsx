@@ -50,6 +50,10 @@ function DispatcherWorkbench() {
     ];
   }, [active]);
 
+  // The single highest-priority card opens expanded; the rest start collapsed
+  // so the queue stays scannable. Any manual toggle overrides this.
+  const topId = groups.find((g) => g.items.length > 0)?.items[0]?.id;
+
   const headline =
     criticalOpen === 0
       ? "No critical exceptions open right now."
@@ -95,7 +99,7 @@ function DispatcherWorkbench() {
                 </div>
                 <div className="space-y-1.5">
                   {g.items.map((e) => (
-                    <ExceptionCard key={e.id} exception={e} />
+                    <ExceptionCard key={e.id} exception={e} defaultExpanded={e.id === topId} />
                   ))}
                 </div>
               </section>
