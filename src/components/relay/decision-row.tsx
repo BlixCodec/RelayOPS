@@ -5,6 +5,7 @@ import { SlaCountdown } from "./sla-countdown";
 import { AvatarWithTooltip } from "./avatar-initials";
 import { CompanyLogo } from "./location-badge";
 import { DenyDialog } from "./deny-dialog";
+import { RecommendationTree } from "./recommendation-tree";
 import { useRelayStore, branchById } from "@/lib/relay/store";
 import type { Exception } from "@/lib/relay/types";
 
@@ -43,6 +44,8 @@ export function DecisionRow({ exception }: { exception: Exception }) {
           <p className="mt-1 text-xs italic text-slate-700">"{exception.escalation.reason}"</p>
         ) : null}
 
+        <RecommendationTree exception={exception} className="mt-3" />
+
         <div className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-slate-500">
           <SlaCountdown dueAt={exception.slaDueAt} />
           <span className="inline-flex items-center gap-1.5">
@@ -50,7 +53,6 @@ export function DecisionRow({ exception }: { exception: Exception }) {
             {branch?.name}
           </span>
           <span className="tnum">${exception.revenueAtRisk.toLocaleString()} at risk</span>
-          <span className="ml-auto text-violet-700">{exception.recommendation.quality}</span>
         </div>
       </div>
 

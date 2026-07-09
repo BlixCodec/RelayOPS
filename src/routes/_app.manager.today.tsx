@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo } from "react";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useRelayStore, branchById } from "@/lib/relay/store";
 import { branches } from "@/lib/relay/seed";
 import { SlaCountdown, slaTone } from "@/components/relay/sla-countdown";
 import { BranchHealthPill, StatusDot } from "@/components/relay/status-pill";
 import { PriorityBadge } from "@/components/relay/priority-badge";
 import { QuoteBlock } from "@/components/relay/quote-block";
+import { RecommendationTree } from "@/components/relay/recommendation-tree";
 import { cn } from "@/lib/utils";
 import type { Exception } from "@/lib/relay/types";
 
@@ -95,8 +96,6 @@ function ManagerToday() {
         </div>
       </section>
 
-      {primary ? <AiRecommendationCard ex={primary} /> : null}
-
       <section className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-card">
         <header className="flex items-center justify-between border-b border-slate-100 px-4 py-2.5">
           <h3 className="text-[13px] font-semibold text-slate-900">Recent decisions</h3>
@@ -181,6 +180,10 @@ function PrimaryDecision({ ex, onOpen }: { ex: Exception; onOpen: () => void }) 
         </QuoteBlock>
       ) : null}
 
+      <div className="mt-4">
+        <RecommendationTree exception={ex} />
+      </div>
+
       <div className="mt-5 flex justify-end">
         <button
           type="button"
@@ -191,33 +194,6 @@ function PrimaryDecision({ ex, onOpen }: { ex: Exception; onOpen: () => void }) 
           <ArrowRight className="h-3.5 w-3.5" />
         </button>
       </div>
-    </div>
-  );
-}
-
-function AiRecommendationCard({ ex }: { ex: Exception }) {
-  return (
-    <div className="rounded-xl border border-violet-100 bg-violet-50/40 p-4 shadow-card">
-      <div className="flex items-center gap-2">
-        <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-violet-100 text-violet-700">
-          <Sparkles className="h-3.5 w-3.5" strokeWidth={2.25} />
-        </span>
-        <span className="text-[11px] font-semibold uppercase tracking-wider text-violet-700">
-          AI recommendation
-        </span>
-        <span className="ml-auto text-[11px] text-violet-700/80">{ex.recommendation.quality}</span>
-      </div>
-      <p className="mt-2 text-[14px] font-medium text-slate-900">{ex.recommendation.action}</p>
-      {ex.recommendation.bullets.length > 0 ? (
-        <ul className="mt-2 space-y-1 text-[12.5px] text-slate-700">
-          {ex.recommendation.bullets.map((b, i) => (
-            <li key={i} className="flex items-start gap-2">
-              <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-violet-400" />
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
-      ) : null}
     </div>
   );
 }

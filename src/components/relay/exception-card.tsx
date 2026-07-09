@@ -6,8 +6,9 @@ import { SlaCountdown } from "./sla-countdown";
 import { AvatarInitials, AvatarWithTooltip } from "./avatar-initials";
 import { LocationBadge } from "./location-badge";
 import { techById } from "@/lib/relay/store";
-import { ChevronDown, Sparkles, Star } from "lucide-react";
+import { ChevronDown, Star } from "lucide-react";
 import { toast } from "sonner";
+import { RecommendationTree } from "./recommendation-tree";
 import { cn } from "@/lib/utils";
 import type { Exception } from "@/lib/relay/types";
 
@@ -93,14 +94,9 @@ export function ExceptionCard({ exception }: { exception: Exception }) {
             {exception.issue}
           </div>
 
-          {exception.recommendation.quality === "High Confidence" &&
-          exception.recommendation.signalsCount >= 3 ? (
-            <div className="relative mt-2 flex items-center gap-1.5 rounded-md border border-slate-200 bg-slate-50/70 px-2 py-1 text-[11px] text-slate-700">
-              <Sparkles className="h-3 w-3 shrink-0 text-emerald-600" strokeWidth={2} />
-              <span className="truncate">
-                <span className="font-medium">Suggested · </span>
-                {exception.recommendation.action}
-              </span>
+          {exception.status !== "resolved" && exception.recommendation.bullets.length > 0 ? (
+            <div className="pointer-events-none relative mt-2.5">
+              <RecommendationTree exception={exception} />
             </div>
           ) : null}
 
