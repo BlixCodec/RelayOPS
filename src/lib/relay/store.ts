@@ -95,6 +95,10 @@ export const useRelayStore = create<RelayState>()(
         set((s) => {
           const ex = s.exceptions.find((e) => e.id === id);
           const branchName = branches.find((b) => b.id === ex?.branchId)?.name ?? "Branch";
+          const customer = ex?.customer ?? "the escalation";
+          const message = note
+            ? `Regional Operations approved ${customer} for ${branchName}. ${note}`
+            : `Regional Operations approved ${customer} for ${branchName}. Dispatch can proceed.`;
           return {
             exceptions: s.exceptions.map((e) =>
               e.id === id
@@ -162,7 +166,7 @@ export const useRelayStore = create<RelayState>()(
               {
                 id: uid(),
                 kind: "decision",
-                message: `Regional Operations approved ${ex?.customer ?? "the escalation"} for ${branchName}.`,
+                message,
                 at: iso(),
                 read: false,
                 exceptionId: id,

@@ -7,12 +7,20 @@ import { FacilityPhoto } from "./location-badge";
 import { DenyDialog } from "./deny-dialog";
 import { RecommendationTree } from "./recommendation-tree";
 import { useRelayStore, branchById } from "@/lib/relay/store";
+import { recommendationTree } from "@/lib/relay/recommendation-tree";
 import type { Exception } from "@/lib/relay/types";
 
 export function DecisionRow({ exception }: { exception: Exception }) {
   const { approve, openDrawer } = useRelayStore();
   const branch = branchById(exception.branchId);
   const escalatedBy = exception.escalation?.by;
+  const recommendedTech = recommendationTree(exception).tech;
+  const approvalNote = recommendedTech
+    ? `${recommendedTech.name} can proceed; notify dispatch and the customer.`
+    : "Proceed with the recommended action and notify dispatch.";
+  const approvalToast = recommendedTech
+    ? `Dispatch has approval; ${recommendedTech.name} can proceed.`
+    : "Dispatch has approval and instructions.";
 
   return (
     <article className="grid grid-cols-1 gap-4 rounded-xl border border-slate-200/60 bg-white p-4 shadow-card transition-colors hover:bg-slate-50/50 md:grid-cols-[1fr_auto]">
@@ -65,11 +73,8 @@ export function DecisionRow({ exception }: { exception: Exception }) {
         <Button
           className="h-8 min-w-[112px] rounded-full bg-slate-900 px-4 text-xs text-white shadow-none hover:bg-slate-800"
           onClick={() => {
-            approve(
-              exception.id,
-              "Approved. Proceed with the recommended action and notify dispatch.",
-            );
-            toast("Dispatch has approval and instructions.");
+            approve(exception.id, approvalNote);
+            toast(approvalToast);
           }}
         >
           Approve

@@ -109,7 +109,7 @@ export function TopBar() {
             aria-label="Toggle sidebar"
             className="h-8 w-8 shrink-0 text-slate-500 hover:bg-slate-100 hover:text-slate-900 md:hidden"
           />
-          <nav className="ml-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-x-auto whitespace-nowrap text-[11px] [scrollbar-width:none] md:flex-[0_1_auto] [&::-webkit-scrollbar]:hidden">
+          <nav className="ml-1 flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden whitespace-nowrap text-[11px] md:flex-[0_1_auto]">
             <Link
               to="/"
               className="flex h-5 shrink-0 items-center rounded-sm hover:opacity-75 focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
@@ -120,9 +120,14 @@ export function TopBar() {
             {crumbs.map((c, i) => {
               const isLast = i === crumbs.length - 1;
               return (
-                <span key={i} className="flex shrink-0 items-center gap-1.5">
+                <span key={i} className="flex min-w-0 items-center gap-1.5">
                   <span className="text-slate-300">/</span>
-                  <span className={cn(isLast ? "font-medium text-slate-800" : "text-slate-500")}>
+                  <span
+                    className={cn(
+                      "truncate",
+                      isLast ? "font-medium text-slate-800" : "text-slate-500",
+                    )}
+                  >
                     {c.label}
                   </span>
                 </span>

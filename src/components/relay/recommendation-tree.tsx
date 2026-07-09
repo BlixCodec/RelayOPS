@@ -51,8 +51,7 @@ function iconFor(text: string): LucideIcon {
 }
 
 function liveAgo(dueAt: string, now: number): string {
-  const nowMs = now === 0 ? new Date(dueAt).getTime() : now;
-  const abs = Math.abs(nowMs - new Date(dueAt).getTime());
+  const abs = Math.abs(now - new Date(dueAt).getTime());
   const totalSec = Math.floor(abs / 1000);
   const m = Math.floor(totalSec / 60);
   const s = totalSec % 60;
@@ -77,7 +76,8 @@ export function RecommendationTree({
 }) {
   const tree = recommendationTree(exception);
   const now = useNow();
-  const breached = new Date(exception.slaDueAt).getTime() - (now || Date.now()) < 0;
+  const nowMs = now || Date.now();
+  const breached = new Date(exception.slaDueAt).getTime() - nowMs < 0;
 
   return (
     <section
@@ -139,7 +139,7 @@ export function RecommendationTree({
                   )}
                   suppressHydrationWarning
                 >
-                  {liveAgo(exception.slaDueAt, now)}
+                  {liveAgo(exception.slaDueAt, nowMs)}
                   {breached ? " ago" : ""}
                 </span>
               </span>

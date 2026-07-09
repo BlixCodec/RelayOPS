@@ -51,8 +51,9 @@ export function SlaCountdown({
   showIcon?: boolean;
 }) {
   const now = useNow();
-  const nowMs = now === 0 ? new Date(dueAt).getTime() : now;
-  const diff = new Date(dueAt).getTime() - nowMs;
+  const dueAtMs = new Date(dueAt).getTime();
+  const nowMs = now || Date.now();
+  const diff = dueAtMs - nowMs;
   const tone = slaTone(dueAt, nowMs);
   const t = toneClass[tone];
 
@@ -79,7 +80,7 @@ export function SlaCountdown({
       {tone !== "calm" ? (
         <span className={cn("h-1.5 w-1.5 rounded-full", t.dot, t.pulse && "animate-pulse")} />
       ) : null}
-      {label}
+      <span suppressHydrationWarning>{label}</span>
     </span>
   );
 }

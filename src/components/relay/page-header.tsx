@@ -14,7 +14,7 @@ export function PageHeader({
   return (
     <div
       className={cn(
-        "sticky top-0 z-20 flex flex-col gap-2 border-b border-slate-100 bg-white/95 px-4 pt-4 pb-3 backdrop-blur sm:flex-row sm:items-start sm:justify-between sm:gap-3 sm:px-6 sm:pt-5 sm:pb-4",
+        "flex flex-col gap-2 border-b border-slate-100 bg-white/95 px-4 pt-4 pb-3 sm:flex-row sm:items-start sm:justify-between sm:gap-3 sm:px-6 sm:pt-5 sm:pb-4",
         className,
       )}
     >

@@ -99,8 +99,8 @@ function DispatcherToday() {
 
   return (
     <div className="w-full max-w-none space-y-4 px-4 py-4 sm:space-y-5 sm:px-8 sm:py-6">
-      <section className="sticky top-0 z-20 -mx-4 border-b border-slate-200/70 bg-slate-50/85 px-4 py-3 backdrop-blur-md sm:-mx-8 sm:px-8">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
+      <section className="-mx-4 border-b border-slate-200/70 bg-slate-50/80 px-4 py-2.5 sm:-mx-8 sm:px-8 sm:py-3">
+        <div className="flex flex-col gap-2.5 lg:flex-row lg:items-center">
           <div className="min-w-0 shrink-0 lg:w-[280px]">
             <h1
               className="truncate text-[20px] font-semibold leading-tight tracking-tight text-slate-900"
@@ -110,7 +110,7 @@ function DispatcherToday() {
             </h1>
             <p className="mt-0.5 truncate text-[12.5px] text-slate-500">{sub}</p>
           </div>
-          <div className="grid min-w-0 flex-1 grid-cols-2 gap-2 sm:grid-cols-4">
+          <div className="-mx-1 flex min-w-0 flex-1 gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] sm:mx-0 sm:grid sm:grid-cols-4 sm:overflow-visible sm:px-0 sm:pb-0 [&::-webkit-scrollbar]:hidden">
             <StatChip
               icon={CircleAlert}
               tone="critical"
@@ -302,17 +302,19 @@ function StatChip({
       <TooltipTrigger asChild>
         <button
           type="button"
-          className="flex min-w-0 items-center gap-2 rounded-full border border-slate-200 bg-white/90 px-2.5 py-1.5 text-left shadow-card transition-colors hover:border-slate-300 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+          className="flex min-w-[132px] items-center gap-1.5 rounded-full border border-slate-200 bg-white/90 px-2.5 py-1.5 text-left shadow-card transition-colors hover:border-slate-300 hover:bg-white focus:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 sm:min-w-0"
           aria-label={`${label}: ${detail}`}
         >
           <span className={cn("flex h-5 w-5 shrink-0 items-center justify-center", toneClass)}>
             <Icon className="h-3.5 w-3.5" strokeWidth={1.9} />
           </span>
           <div className="flex min-w-0 items-baseline gap-1.5">
-            <span className="tnum text-[14px] font-semibold leading-none text-slate-900">
+            <span className="tnum text-[13px] font-semibold leading-none text-slate-900">
               {value}
             </span>
-            <span className="truncate text-[11px] leading-tight text-slate-500">{label}</span>
+            <span className="truncate text-[10.5px] leading-tight text-slate-500 sm:text-[11px]">
+              {label}
+            </span>
           </div>
         </button>
       </TooltipTrigger>
